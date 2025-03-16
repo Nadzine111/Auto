@@ -6,9 +6,18 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Данные
+# Данные (кроме примеров)
 data/*
 !data/.gitkeep
+!data/11_1.csv
+!data/11_2.csv
+!data/1_1.csv
+!data/1_2.csv
+!data/3_1.csv
+!data/5_1.csv
+!data/8_1.csv
+!data/8_2.csv
+!data/8_3.csv
 
 # Конфигурационные файлы с чувствительными данными
 config.ini
