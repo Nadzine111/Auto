@@ -13,6 +13,9 @@ data/*
 # Конфигурационные файлы с чувствительными данными
 config.ini
 
+# Batch файлы
+*.bat
+
 # IDE
 .vscode/
 .idea/
