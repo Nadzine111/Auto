@@ -5,13 +5,15 @@
 ## Структура проекта
 
 ```
-auto/
+Auto/
 ├── src/                   # Исходный код
 │   ├── pgdb.py           # Модуль для работы с базой данных
 │   ├── load_sales.py     # Скрипт загрузки данных
 │   └── generate_csv.py   # Скрипт генерации CSV файлов
 ├── data/                  # Папка для CSV файлов
-├── config.ini            # Файл конфигурации (необходимо создать)
+├── SQL/                   # SQL скрипты
+│   └── ddl_sales.sql     # Структура таблицы sales
+├── config.ini            # Файл конфигурации
 └── requirements.txt      # Зависимости проекта
 ```
 
@@ -19,8 +21,8 @@ auto/
 
 1. Клонируйте репозиторий:
 ```bash
-git clone [URL репозитория]
-cd auto
+git clone https://github.com/Nadzine111/Auto
+cd Auto
 ```
 
 2. Создайте виртуальное окружение и активируйте его:
@@ -50,7 +52,9 @@ PRODUCTS = {"item": ["Молоко", "Хлеб", "Сыр"], "category": ["Мол
 
 ## Использование
 
-1. Генерация тестовых данных (выполняется по рабочим дням):
+### Ручной запуск
+
+1. Генерация тестовых данных:
 ```bash
 python src/generate_csv.py
 ```
@@ -60,19 +64,48 @@ python src/generate_csv.py
 python src/load_sales.py
 ```
 
+### Автоматический запуск через Планировщик задач Windows
+
+1. Создать 2 файла с расширением .bat в которых нужно указать:
+    - путь до питона в виртуальном окружении: /путь до папки с проектом/Auto/venv/Scripts/python.exe
+    - путь до запускаемого скрипта:
+             /путь до папки с проектом/Auto/src/generate_csv.py 
+             или
+             /путь до папки с проектом/Auto/src/load_sales.py 
+
+2. Откройте "Планировщик задач Windows" (Task Scheduler)
+
+3. Создайте 2 новые задачи:
+
+   - Общие:
+     * Выполнять с наивысшими правами: ✓
+     * Выполнять независимо от регистрации пользователя: ✓
+
+   - Триггеры:
+     * Создайте расписание по вашим требованиям (например, ежедневно в определенное время)
+
+   - Действия:
+     * Программа: `C:\Windows\System32\cmd.exe`
+     * Аргументы: `/c "путь до папки с проектом\Auto\generate_data.bat"` или `/c "путь до папки с проектом\Auto\load_data.bat"` 
+     * Рабочая папка: `путь до папки с проектом\Auto`
+
 ## База данных
+
+Для создания таблицы sales запустите скрипт из файла SQL/ddl_sales.sql. 
 
 Структура таблицы sales:
 ```sql
-CREATE TABLE sales (
-    dt DATE,
-    store VARCHAR(10),
-    cash VARCHAR(10),
-    doc_id VARCHAR(50),
-    item VARCHAR(255),
-    category VARCHAR(255),
-    amount NUMERIC,
-    price NUMERIC,
-    discount NUMERIC
+CREATE TABLE public.sales (
+    id serial4 NOT NULL,
+    dt date NULL,
+    store varchar(20) NULL,
+    cash varchar(20) NULL,
+    doc_id varchar(20) NULL,
+    item varchar(100) NULL,
+    category varchar(30) NULL,
+    amount numeric NULL,
+    price numeric NULL,
+    discount numeric NULL,
+    CONSTRAINT sales_pkey PRIMARY KEY (id)
 );
 ``` 
